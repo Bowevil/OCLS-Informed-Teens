@@ -1,32 +1,43 @@
 <?php
 
-function testext($filename) {
-  if (substr(strtolower($filename), -4, 4) == ".jpg" or substr(strtolower($filename), -5, 5) == ".jpeg" or substr(strtolower($filename), -4, 4) == ".gif" or substr(strtolower($filename), -4, 4) == ".png") {
+// Return true if the filename has a permitted extension.
+function brilliant_gallery_testext($filename) {
+  $testending = substr(strtolower($filename), -4, 4);
+  if ($testending == ".jpg" or substr(strtolower($filename), -5, 5) == ".jpeg" or $testending == ".gif" or $testending == ".png") {
     return true;
   }
   // Otherwise return false.
   return false;
 }
 
+// Load Directory Into Array
 function load_dir_to_array($absolpath, $imagewidth, $fullresolutionmaxwidth, $brilliant_gallery_sort, $imagecrop, $maximumnumbertoshow = '') {
-  #watchdog('Brilliant Gal','imgw: '.$imagewidth.'/'.$imagecrop);
-  # Load Directory Into Array
   $poct = -1;
   $retval_dimensions = array();
-  #$handle            = @opendir($absolpath);
   $actualpath = realpath(FILE_DIRECTORY_PATH) . $absolpath;
-  #watchdog('Brilliant Gal','absol3: '.$actualpath);
   $handle = @opendir($actualpath);
   $imagemaxh = 0;
+
+  // Get a list of files that should be hidden (based on .picasa.ini, if present)
+  $hidden_file_names = brilliant_gallery_get_picasa_hidden_imagenames($actualpath);
 
   // Load the directory into an array first.
   $filearray = array();
   while ($file = @readdir($handle)) {
+
+    /*
     $testending = strtolower(substr($file, -4, 4));
-    if (!testext($file) and strtolower($testending) <> '.mpg' and strtolower($testending) <> '.swf' and strtolower($testending) <> '.mov' and strtolower($testending) <> '.avi') {
+    if (strtolower($testending) <> '.mpg' and strtolower($testending) <> '.swf' and strtolower($testending) <> '.mov' and strtolower($testending) <> '.avi') {
       continue;
     }
+    */
+    if (!brilliant_gallery_testext($file)) continue;
+
+    // Hide images listed as hidden if they are present in .picasa.ini
+    if (in_array($file, $hidden_file_names)) continue;
+
     $filearray[] = $file;
+
   }
   @closedir($handle);
 
@@ -41,7 +52,6 @@ function load_dir_to_array($absolpath, $imagewidth, $fullresolutionmaxwidth, $br
       $retval_dimensions[$poct]['imgcrop'] = $imagecrop;
 
       # Is image horizontally or vertically oriented?
-      #$temp = getimagesize($absolpath .'/'. $file);
       $temp = getimagesize($actualpath . '/' . $file);
       if ($temp === false) {
         continue;
@@ -49,7 +59,6 @@ function load_dir_to_array($absolpath, $imagewidth, $fullresolutionmaxwidth, $br
       if ((($temp[0] - $temp[1]) >= 0) OR $maximumnumbertoshow == 1) {
         // This is a horizontal image.
         // Treat single images just as horizontal images (no need to fit their height to the height of horizontals)! The specified width of an image is authoritative for both horizontal images and also vertical if they show alone.
-        #if ($imagecrop == 'yes' and $maximumnumbertoshow <> 1){
         if ($imagecrop == 'yes') {
           $retval_dimensions[$poct]['imgw'] = $imagewidth;
           $retval_dimensions[$poct]['imgh'] = $imagewidth;
@@ -71,8 +80,6 @@ function load_dir_to_array($absolpath, $imagewidth, $fullresolutionmaxwidth, $br
         else {
           $retval_dimensions[$poct]['imgw'] = round(($temp[0] / $temp[1]) * ($temp[0] / $temp[1]) * $imagewidth);
           $retval_dimensions[$poct]['imgh'] = round(($temp[0] / $temp[1]) * $imagewidth);
-          #watchdog('Brilliant Gal','2imgw: '.$imagewidth.'/'.$imagecrop);
-          #watchdog('Brilliant Gal','2imgw: '.$temp[0].'-'.$temp[1]);
         }
         $retval_dimensions[$poct]['imgwbig'] = round(($temp[0] / $temp[1]) * ($temp[0] / $temp[1]) * $fullresolutionmaxwidth);
         $retval_dimensions[$poct]['imghbig'] = round(($temp[0] / $temp[1]) * $fullresolutionmaxwidth);
@@ -215,183 +222,41 @@ function brilliant_gallery_deliver_image() {
     exit();
   }
 
-  /*
-    drupalize();
-    function drupalize() {
-    while (!@stat('./includes/bootstrap.inc')) {
-    chdir('..');
-    }
-    #module_load_include('/includes/bootstrap.inc', 'image', 'includes/bootstrap');
-    require_once './includes/bootstrap.inc';
-    require_once './includes/file.inc';
-    drupal_bootstrap(DRUPAL_BOOTSTRAP_FULL); // See http://drupal.org/node/211378#comment-924059
-    #drupal_bootstrap(DRUPAL_BOOTSTRAP_DATABASE);
-    #drupal_cron_run();
-    }
-   */
   $imagepath = realpath(FILE_DIRECTORY_PATH . $urlpath);
-  #watchdog('Brilliant Gal','imgp: '.$imagepath);
+
   // Crucial - to suppress Devel (if installed and enabled) output appearing in the generated XML!
   $GLOBALS['devel_shutdown'] = FALSE;
 
-  #chdir ('../../../../');
-  #module_load_include('/includes/bootstrap.inc', 'image', 'includes/bootstrap');
-  #module_load_include('./../../../../includes/bootstrap.inc', 'image', '');
-  #drupal_bootstrap(DRUPAL_BOOTSTRAP_FULL);
-  #if ( $_SERVER['SERVER_ADDR'] == '64.13.192.90' ) {
-  /*
-    if (variable_get('brilliant_gallery_cache', 'd') == 'f') {
-    #echo '.....................' . $_SERVER['SERVER_ADDR'];
-    #drupal_set_message('cachetype1 '.variable_get('brilliant_gallery_cache', 'd'));
-    #watchdog('Brilliant Gal', '1 '.variable_get('brilliant_gallery_cache'));
-    $my_data = resizeimage_wrapper_filecache();
-    }
-    else {
-    #drupal_set_message('cachetype2 '.variable_get('brilliant_gallery_cache', 'd'));
-    #watchdog('Brilliant Gal', '2 '.variable_get('brilliant_gallery_cache'));
-    $my_data = resizeimage_wrapper_dbcache();
-    }
-   */
-  //brilliant_gallery_brokenimage($bgcacheid.' :g: '.time(),1900,500); exit();
   $my_data = resizeimage_wrapper_dbcache(FALSE, $imagepath, $bgimgproperties_hash);
 
-  #echo '....'. sess_read('vacilando');
+  // http://be.php.net/getimagesize
   $imgsize = @getimagesize($imagepath);
-  # http://be.php.net/getimagesize
   $head = "Content-type: {$imgsize['mime']}";
   header($head);
-  //header($my_data[0]);
   echo $my_data;
   // IMPORTANT to exit() - otherwise some process after BG adds strings and breaks the image!
   exit();
-  /*
-    function resizeimage_wrapper_filecache() {
-    $bgcacheid = 'bg_'. md5($_GET['imgp'] . $_GET['imgw'] . $_GET['imgh']);
-    #echo '. 0.... ';
-    $bgcachexpire = variable_get('brilliant_gallery_cache_duration',90) * 24 * 3600; // Cache expiration time in days.
-    // Tested that both relative (eg sites/all/files/cache) and absolute (eg /home/data/tmp) tmp path settings work OK here.
-    $cachetemp = variable_get('brilliant_gallery_pcache', BRILLIANT_GALLERY_DEFAULT_CACHE_DIR);
-    $cachedfile = $cachetemp .'/'. $bgcacheid;
-    $fileexists = false;
-    $fileexists = file_exists($cachedfile);
-    $timenow = time();
-    $lastchanged = $timenow;
-    $lastchanged = @filemtime($cachedfile);
-    $fileexpired = false;
-    if ($timenow - $lastchanged > $bgcachexpire){
-    $fileexpired = true;
-    // If the image is expired, we need to actively delete it, for the case that it was removed / hidden by the owner.
-    @unlink($cachedfile);
-    }
-    if (!$fileexists or $fileexpired) {
-    #echo '. 1.... ';
-    // Cache file does not exist or is too old.
-    #$my_data = resizeimage($_GET['imgp'], $_GET['imgw'], $_GET['imgh']);
-    $my_data = resizeimage($_GET['imgp'], $_GET['imgw'], $_GET['imgh'], $_GET['imgcrop']);
-    // Now put $my_data to cache!
-    $fh = fopen($cachedfile, "w+");
-    fwrite($fh, $my_data);
-    fclose($fh);
-    $my_data = unserialize($my_data);
-    }
-    else {
-    #echo '. 2.... ';
-    // Cache file exists.
-    $my_data = unserialize(file_get_contents($cachedfile));
-    }
-    return $my_data;
-    }
-   */
 
-  /*
-    brilliant_gallery_brokenimage($showthis,500,500); exit();
-   */
-
-  /*
-    $result = '';
-
-    // $bgimgproperties_hash looks like d48a36adcaff5b04858e6ae8e8d2b81a.bgimg -- let's lose the extension.
-    $bgimgproperties_hash = explode('.',$bgimgproperties_hash);
-    $bgimgproperties_hash = $bgimgproperties_hash[0];
-
-    drupal_set_message('hashed array: '.$bgimgproperties_hash);
-
-    $result .= $bgimgproperties_hash;
-   */
-
-  //return $result;
   return;
 }
 
 function resizeimage_wrapper_dbcache($reset = FALSE, $imagepath, $bgimgproperties_hash) {
-  #global $user;
-  #$userId = $user->uid;
   $bgcachexpire = brilliant_gallery_get_days_in_seconds(variable_get('brilliant_gallery_cache_duration', 90)); // Cache expiration time in days.
-  //$bgcacheid = 'bg_' . md5($_GET['imgp'] . $_GET['imgw'] . $_GET['imgh']);
-  //brilliant_gallery_brokenimage($bgcacheid.' :0: '.time(),1900,500); exit();
-  #echo $bgcacheid;
   static $my_data;
-  #echo '0.... ';
-
-  /*
-    $reset = true;
-    if (!isset($my_data) || $reset) {
-    if (!$reset and ($cache = cache_get($bgcacheid)) and !empty($cache->data)) {
-    #$my_data = $cache->data; echo '-1.... ' . $my_data;
-    // Crucial to unserialize for the immediate use!
-    $my_data = unserialize($cache->data);
-    #echo $my_data;
-    //brilliant_gallery_brokenimage($bgcacheid.' :1: '.time(),1900,500); exit();
-    }
-    else {
-    // Do your expensive calculations here, and populate $my_data
-    // with the correct stuff..
-    #$my_data = resizeimage($_GET['imgp'], $_GET['imgw'], $_GET['imgh']);
-    //$my_data = resizeimage($_GET['imgp'], $_GET['imgw'], $_GET['imgh'], $_GET['imgcrop'],$imagepath);
-    #echo ' -2.... ' . $bgcachexpire . ' // ' . $my_data;
-    # For some reason I could not use: mysql_escape_string($my_data)
-    #cache_set($bgcacheid, 'cache', time() + $bgcachexpire, $my_data);
-    cache_set($bgcacheid, $my_data, 'cache', time() + $bgcachexpire);
-    //brilliant_gallery_brokenimage($_GET['imgp']. $_GET['imgw']. $_GET['imgh']. $_GET['imgcrop'].' :3: '.time(),1900,500); exit();
-    # FOR DRUPAL6 MUST USE:
-    #cache_set($bgcacheid,  $my_data, time() + $bgcachexpire); # For some reason I could not use: mysql_escape_string($my_data)
-    // Crucial to unserialize for the immediate use!
-    $my_data = unserialize($my_data);
-    }
-    }
-   */
-
 
   $pcache = variable_get('brilliant_gallery_pcache', BRILLIANT_GALLERY_DEFAULT_CACHE_DIR);
   //brilliant_gallery_check_or_create_dir($pcache);
   $foqen = FILE_DIRECTORY_PATH . '/' . $pcache . '/bg_cached_resized_' . $bgimgproperties_hash;
   $lastchanged = @filemtime($foqen); // Last file modification time, or FALSE on error.
-  /*
-    global $user; $userId = $user->uid;
-    if ($userId == 1){
-    drupal_set_message('pic '.($timenow - $lastchanged).' > '.$bgcachexpire.' ... '.$foqen);
-    }
-   */
-  #if ($_GET['fetchnow']==1){ $lastchanged = FALSE; } // Debugging!
+
   if ($lastchanged === FALSE OR (REQUEST_TIME - $lastchanged > $bgcachexpire)) {
     // If the image is expired, we need to actively delete it, for the case that it was removed / hidden by the owner.
     @unlink($foqen);
-    /*
-      global $user; $userId = $user->uid;
-      if ($userId == 1){
-      drupal_set_message('in!');
-      }
-     */
-    ///*
     $my_data = resizeimage($_GET['imgp'], $_GET['imgw'], $_GET['imgh'], @$_GET['imgcrop'], $imagepath);
     $image = $my_data;
-    //*/
-    #watchdog('bg', $imager->code.' ... '.$imgurl.' =imgurl');
     // It happens that the file size is 0 (image not fetched). In such case, don't write it.
     if (strlen($image) > 0) {
       $fp = fopen($foqen, 'w');
-      #drupal_set_message($foqen.'<br>');
-      #watchdog('bg', $foqen.' ...ok<br>');
       fwrite($fp, $image);
       fclose($fp);
     }
@@ -401,35 +266,23 @@ function resizeimage_wrapper_dbcache($reset = FALSE, $imagepath, $bgimgpropertie
   return $my_data;
 }
 
-#function resizeimage($imgp, $imgw, $imgh) {
-
 function resizeimage($imgp, $imgw, $imgh, $imgcrop, $imagepath) {
-  #$imagepath = base64_decode($imgp);
-  #echo '.... ' . base64_decode( $imgp );
-  #flush();die(' stop!');
-  //global $imagepath;
 
-  $suffix = strtolower(substr($imagepath, -4));
-  //$imgsize = @getimagesize($imagepath);
-  # http://be.php.net/getimagesize
-  //$head = "Content-type: {$imgsize['mime']}";
-  if ($suffix == ".gif") {
-    #$head = "Content-type: image/gif";
+  $imagepathexploded = explode('.', strtolower($imagepath));
+  $suffix = end($imagepathexploded);
+  if ($suffix == "gif") {
     $img = @imagecreatefromgif($imagepath);
     if (!$img) {
       brilliant_gallery_brokenimage("Error loading GIF", $imgw, $imgh);
     }
   }
-  else if ($suffix == ".jpg" or $suffix == "jpeg") {
-    #$head = "Content-type: image/jpeg";
-    //brilliant_gallery_brokenimage($imagepath.' :1: '.time(),1900,500); exit();
+  else if ($suffix == "jpg" or $suffix == "jpeg") {
     $img = @imagecreatefromjpeg($imagepath);
     if (!$img) {
       brilliant_gallery_brokenimage("Error loading JPG", $imgw, $imgh);
     }
   }
-  else if ($suffix == ".png") {
-    #$head = "Content-type: image/png";
+  else if ($suffix == "png") {
     $img = @imagecreatefrompng($imagepath);
     if (!$img) {
       brilliant_gallery_brokenimage("Error loading PNG", $imgw, $imgh);
@@ -438,8 +291,6 @@ function resizeimage($imgp, $imgw, $imgh, $imgcrop, $imagepath) {
   # Resize the image
   $src_h = ImageSY($img);
   $src_w = ImageSX($img);
-  #$dst_img = imagecreatetruecolor($imgw, $imgh);
-  #imagecopyresampled($dst_img, $img, 0, 0, 0, 0, $imgw, $imgh, $src_w, $src_h);
   $dst_img = 0;
   if ($imgcrop == 'yes') {
     if ($src_h > $src_w) {
@@ -458,16 +309,14 @@ function resizeimage($imgp, $imgw, $imgh, $imgcrop, $imagepath) {
     imagecopyresampled($dst_img, $img, 0, 0, 0, 0, $imgw, $imgh, $src_w, $src_h);
   }
   $img = $dst_img;
-  //imageinterlace($img, 1);
-  //imagecolortransparent($img);
   ob_start();
-  if ($suffix == ".gif") {
+  if ($suffix == "gif") {
     Imagegif($img);
   }
-  else if ($suffix == ".jpg" or $suffix == ".jpeg") {
+  else if ($suffix == "jpg" or $suffix == "jpeg") {
     Imagejpeg($img, NULL, 90);
   }
-  else if ($suffix == ".png") {
+  else if ($suffix == "png") {
     Imagepng($img, NULL, 9);
   }
   $result = ob_get_clean();
@@ -547,30 +396,23 @@ function replace_brilliant_gallery_tags($str) {
       $match = array();
       foreach ($newgenmatch as $key => $val) {
         $match[array_search($key, $allowed_params)] = $val; // E.g. 'location = myalbum' will become $match[1] = 'myalbum'
-        /*
-          if (arg(1) == 264402){
-          #drupal_set_message('...');
-          #var_dump($newgenmatch);
-          #var_dump($match);
-          echo array_search($key,$allowed_params)." $key // $val\n";
-          }
-         */
       }
     }
+
+    $pathurl_btsync_check = brilliant_gallery_pathurl_btsync_check($match[1]);
+    // If this is a BT Sync folder (secret), change $match[1]
+    if ($pathurl_btsync_check) $match[1] = $pathurl_btsync_check;
 
     // If we are using thumbshowbyname and there is just 1 image, force thumbmaxshow to 1 (prevents BG from adjusting the height as it does for a set of images).
     if (@$match[13] <> '' AND strpos(@$match[13], ',') === FALSE) {
       $match[5] = 1;
     }
 
-    #watchdog('Brilliant Gal', 'Got the array: '.vacilando_echo_array($match));
-    #watchdog('Brilliant Gal', 'Got the new array: '.vacilando_echo_array($newgenmatch));
     // Cache the result if it comes from a non-random tag
     $bgcachexpire = brilliant_gallery_get_days_in_seconds(variable_get('brilliant_gallery_cache_duration', 90)); // Cache expiration time in days.
     $mbgtag = md5($omatch);
     #########x TEMPORARILY SET TO FALSE!!
     if ($cache = cache_get('bg_gallery_table_' . $mbgtag) and !empty($cache->data)) {
-      #if (false) {
       $galhere = $cache->data;
     }
     else {
@@ -594,6 +436,43 @@ function replace_brilliant_gallery_tags($str) {
   return $str;
 }
 
+function brilliant_gallery_pathurl_btsync_check($pathurl){
+  // Only continue if it looks like a BT Sync secret (must be 33 chars); see http://forum.bittorrent.com/topic/29304-rules-for-valid-secret/
+  preg_match("/[A-Z2-7]{33}/", $pathurl, $output_array);
+  if (!array_key_exists(0, $output_array)) {
+    return FALSE;
+  }
+  // Only continue if the main gallery folder has been configured.
+  if (variable_get('brilliant_gallery_folder', '') == '') break;
+  $btsyncdir = 'public://'.variable_get('brilliant_gallery_folder', '').'/btsync';
+  $dirtest = file_prepare_directory($btsyncdir, FILE_CREATE_DIRECTORY);
+  // Only continue if the special btsync directory exists and is writable
+  if (!$dirtest) {
+    watchdog('Brilliant Gal', 'Special folder "btsync" cannot be created or is not writable in ' . $btsyncdir = 'public://'.variable_get('brilliant_gallery_folder', ''));
+    return FALSE;
+  }
+  // OK now let's check or add the particular sync folder
+  $btsyncgallerydir = $btsyncdir.'/'.$pathurl;
+  $dirtest = file_prepare_directory($btsyncgallerydir, FILE_CREATE_DIRECTORY);
+  // Only continue if the special btsync directory exists and is writable
+  if (!$dirtest) {
+    watchdog('Brilliant Gal', 'Sync folder "'.$pathurl.'" cannot be created or is not writable in ' . $btsyncdir);
+    return FALSE;
+  }
+  if (function_exists('btsync_method_callback')){
+    btsync_method_callback('add_folder', array(
+      'dir' => drupal_realpath($btsyncgallerydir), // Did not work without drupal_realpath here.
+      'secret' => $pathurl,
+    ));
+  }
+  else {
+    watchdog('Brilliant Gal', 'BT Sync gallery formatter selected but the BitTorrent Sync API module ("btsync") is not enabled.');
+    return FALSE;
+  }
+  $pathurl = 'btsync/'.$pathurl;
+  return $pathurl;
+}
+
 /**
  * @todo Please document this function.
  * @see http://drupal.org/node/1354
@@ -601,4 +480,63 @@ function replace_brilliant_gallery_tags($str) {
 function brilliant_gallery_get_time_this_many_seconds_from_now($period) {
   $period = REQUEST_TIME + $period;
   return $period;
+}
+
+/**
+ * Get a list of files that should be hidden (based on .picasa.ini, if present)
+ */
+function brilliant_gallery_get_picasa_hidden_imagenames($absolute_album_path){
+
+  // Skip processing if there is no .picasa.ini inside
+  if (file_exists($absolute_album_path."/.picasa.ini")){
+
+    // Skip if the .picasa.ini file lists no hidden images
+    $picasaini = file_get_contents($absolute_album_path."/.picasa.ini");
+    if (strpos($picasaini, "hidden=yes") !== FALSE){
+      $picasaini_lines = file($absolute_album_path."/.picasa.ini");
+      $picasaini_lines = array_map('trim', $picasaini_lines);
+
+      $dir_files = scandir($absolute_album_path);
+      // Skip ., .., and .picasa.ini
+      $dir_files = array_diff($dir_files, array('..', '.', '.picasa.ini'));
+
+      $filenames = array();
+      foreach ($dir_files as $key => $filename) {
+
+            /* Check if the filename is hidden in .picasa.ini
+             * Hidden entry example:
+             * [02_011_08a.jpg]
+             * rotate=rotate(2)
+             * backuphash=53332
+             * hidden=yes
+             */
+            $searched_filename = '['.$filename.']';
+            $is_in_picasaini = array_search($searched_filename, $picasaini_lines);
+            // If the file name is not in .picasa.ini, skip
+            if ($is_in_picasaini === FALSE) continue;
+            // Ok so it's in .picasa.ini, but is it currently hidden?
+            $ishidden = FALSE;
+            foreach($picasaini_lines as $key=>$val){
+              // Iterate to the line AFTER the matching file name
+              if ($key <= $is_in_picasaini) continue;
+              // If the line is "hidden=yes" then the file name is hidden
+              if ($val == 'hidden=yes') {
+                $ishidden = TRUE;
+                break;
+              }
+              // If we reach a line starting with "[" then we assume that the searched file name is NOT hidden
+              if (substr($val, 0, 1) == '[') break;
+            }
+            if (!$ishidden) continue;
+
+            $filenames[] = $filename;
+
+      }
+
+    }
+
+  }
+
+  return $filenames;
+
 }
