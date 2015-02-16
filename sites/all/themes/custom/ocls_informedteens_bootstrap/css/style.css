@@ -1,4 +1,237 @@
-/**
- * This file should get overwritten if Method 1 is used. If Method 2 is chosen,
- * remove this comment and start adding your styles to this file.
- */
+@import url(http://fonts.googleapis.com/css?family=Oswald:400,300,700);
+
+body{
+    background-color: #404040;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;    
+    color: #ffffff;
+}
+
+header {
+     background-color: #eeeeee;   
+}
+
+h1 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;   
+    font-size:2.625em; /* 16x.875= 42 */
+    text-transform: uppercase;    
+}
+
+h1.page-header{
+    position: relative;
+    top: 20px;
+    padding-left: 5%;
+}
+
+h2 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+    background-color: #000000;
+    text-transform: none;
+    padding-top: 5px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+}
+
+h3 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+    font-size:2.000em; /* 16x.875=32 */       
+}
+
+h4 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 400;
+    text-transform: uppercase;   
+}
+
+p {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+    margin-bottom: 20px;
+}
+
+li {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300; 
+}
+
+a {
+    font-family: 'Oswald', sans-serif;
+    color: #ffffff;
+    font-weight: 300;
+}
+
+a:hover, a:focus {
+    text-decoration: none;
+    color: #bebebe;
+}
+
+.glyphicon:empty {
+    width: 1.2em;
+}
+
+/* begin Drupal/Bootstrap regions */
+
+.region-sidebar-second {
+    padding-top: 20px;
+}
+
+/* end Drupal/Bootstrap regions */
+
+
+/* begin front page slider */
+
+.view-front-page-slider.view-id-front_page_slider, #block-views-front-page-slider-block-2 {
+    padding-left: 50px;
+    padding-right: 50px;
+    background-color: #404040;
+}
+
+.flexslider {
+    background-color: #000000;
+    margin: 0 0 60px;
+    border: 4px solid #000000;
+}
+
+.flexslider .slides img{
+    width: auto; /* undo width: 100%  in flexslider.css*/
+    max-width:100%;  /* Make sure the image stays inside its surrounding container. */
+    height: auto; /* keep the aspect ratio */
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.flex-control-nav li {
+    float: right;
+}
+
+/* end front page slider */
+
+
+
+/* begin event views teaser*/
+
+.event-content {
+    background-color: #252525;
+    padding-top: 10px;
+    padding-left: 15px;
+    padding-bottom: 10px;
+    padding-right: 15px;    
+    margin-bottom: 15px;
+}
+
+.views-field-field-event-title {
+    text-decoration: underline;
+    font-size: 1.250em; /* 16x.875=20 */
+    padding-bottom: 5px;
+}
+
+.views-field-field-event-library {
+    font-size: 1.000em; /* 16x.875=16 */
+    padding-bottom: 5px;
+}
+
+.views-field-field-event-library {
+    font-size: 1.000em; /* 16x.875=16 */
+    padding-bottom: 5px;
+}
+
+.views-field-field-event-description {
+    font-size: 0.750em; /* 16x.875=12 */
+}
+
+.more-link{
+    float: right;
+}
+/* end event views teaser*/
+
+/* begin media icon links */
+
+.views-field.views-field-field-media-image {
+    float: left;
+    padding-right: 15px;
+    padding-bottom: 15px;    
+}
+
+.views-field.views-field-field-media-image img{
+    width: 100%;
+    height: auto;
+}
+/* end media icon links */
+
+
+.views-field-title {
+    text-decoration: underline;
+    font-size: 1.250em; /* 16x.875=20 */
+}
+
+
+/* begin contest front page links */
+.contest-content .views-field-title {
+    width: 100%;
+    background-color: #252525;
+    padding-top: 10px;
+    padding-left: 15px;
+    padding-bottom: 10px;
+    padding-right: 15px;    
+    margin-bottom: 15px;
+}
+
+
+/* begin polls front page links */
+.polls-content .views-field-title {
+    width: 100%;
+    background-color: #252525;
+    padding-top: 10px;
+    padding-left: 15px;
+    padding-bottom: 10px;
+    padding-right: 15px;    
+    margin-bottom: 15px;
+}
+
+
+/* begin footer */
+
+.container-fluid {
+    background-color: #000000;  
+}
+
+.footer {
+    margin-top: 15px;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    border-top: 0px solid #E5E5E5;
+}
+
+.footer-links {
+    float: right;
+}
+
+.region-footer .views-field.views-field-field-media-image {
+    display: block;
+    float: right;
+    width: 100px;
+    height: auto;
+    clear: right;
+}
+
+/* end footer */
+
+/* begin media queries */
+
+@media(max-width:767px){
+    .views-field.views-field-field-media-image {
+        width: 25%;
+        height: auto;
+    }
+}
+@media(min-width:768px){
+        .views-field.views-field-field-media-image {
+        width: 50%;
+        height: auto;
+    }  
+}
+@media(min-width:992px){}
+@media(min-width:1200px){}
