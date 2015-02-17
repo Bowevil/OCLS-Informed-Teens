@@ -27,17 +27,18 @@ h1.page-header{
 h2 {
     font-family: 'Oswald', sans-serif;
     font-weight: 300;
+    font-size: 2.625em; /* 16x.875= 42 */
     background-color: #000000;
     text-transform: none;
     padding-top: 5px;
-    padding-bottom: 10px;
+    padding-bottom: 5px;
     padding-left: 10px;
 }
 
 h3 {
     font-family: 'Oswald', sans-serif;
     font-weight: 300;
-    font-size:2.000em; /* 16x.875=32 */       
+    font-size: 2.000em; /* 16x.875=32 */       
 }
 
 h4 {
@@ -84,15 +85,22 @@ a:hover, a:focus {
 /* begin front page slider */
 
 .view-front-page-slider.view-id-front_page_slider, #block-views-front-page-slider-block-2 {
-    padding-left: 50px;
-    padding-right: 50px;
     background-color: #404040;
+    border: none;
 }
 
 .flexslider {
-    background-color: #000000;
-    margin: 0 0 60px;
-    border: 4px solid #000000;
+    background-color: #404040;
+    border: 0px solid #fff;
+    position: relative;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    -o-border-radius: 0px;
+    border-radius: 0px;
+    -webkit-box-shadow: 0 0px 0px rgba(0,0,0,.2);
+    -moz-box-shadow: 0 0px 0px rgba(0,0,0,.2);
+    -o-box-shadow: 0 0px 0px rgba(0,0,0,.2);
+    box-shadow: 0 0px 0px rgba(0,0,0,.2);    
 }
 
 .flexslider .slides img{
@@ -101,17 +109,98 @@ a:hover, a:focus {
     height: auto; /* keep the aspect ratio */
     margin-right: auto;
     margin-left: auto;
+    border: 4px solid #000000;    
 }
 
+.flexslider .flex-direction-nav a,
+.flexslider .flex-direction-nav a {
+  display: block;
+}
+.flexslider:hover .flex-direction-nav a,
+.flexslider:hover .flex-direction-nav a {
+  display: block;
+}
+
+.flex-direction-nav a:before {
+    font-family: 'Oswald';
+    font-weight: 700;     
+    content: "\003c";
+    font-size: 80px;
+}
+
+.flex-direction-nav a.flex-next:before {
+    font-family: 'Oswald';
+    font-weight: 700; 
+    content: "\003e";
+    font-size: 80px;
+}
+
+.flex-direction-nav a  {
+    text-decoration:none;
+    display: block;
+    text-shadow: 0px 0px 0 rgba(255,255,255,0.3);
+    transform : scale(1,2);
+    opacity: 1;
+    top: 200px;     
+    width: 80px;
+    height: 200px;  
+}
+
+.flex-direction-nav .flex-prev {
+    left: 0px;
+    padding-left: 20px;
+}
+.flex-direction-nav .flex-next {
+    right: 0px;
+    padding-right: 20px;    
+}
+
+.flexslider:hover .flex-prev {
+    opacity: 0.7;
+    left: 0px;
+}
+.flexslider:hover .flex-next {
+    opacity: 0.7;
+    right: 0px;
+}
+
+/* Control Nav */
 .flex-control-nav li {
     float: right;
+}
+
+.flex-control-nav.flex-control-paging {
+    padding-right: 166px;  
+}
+
+.flex-control-paging li a {
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    -o-border-radius: 0px;
+    border-radius: 0px;
+}
+
+
+.views-field.views-field-title-1, .views-field-field-poll-description, .views-field-field-contest-description, .views-field-field-promotion-description {
+    background-color: #000000;
+    padding-left: 10px;
+    padding-bottom: 10px;    
+    margin-left: 166px;
+    margin-right: 166px;    
 }
 
 /* end front page slider */
 
 
-
 /* begin event views teaser*/
+
+#block-views-front-page-block-1 .block-title:before {
+    display: inline-block;
+    content: url(../icons/calendar.png);
+    vertical-align:middle; 
+    padding-right: 10px;
+    border: none;
+}
 
 .event-content {
     background-color: #252525;
@@ -124,22 +213,18 @@ a:hover, a:focus {
 
 .views-field-field-event-title {
     text-decoration: underline;
-    font-size: 1.250em; /* 16x.875=20 */
+    font-size: 1.500em; /* 16x.875=24 */
     padding-bottom: 5px;
 }
 
 .views-field-field-event-library {
-    font-size: 1.000em; /* 16x.875=16 */
-    padding-bottom: 5px;
-}
-
-.views-field-field-event-library {
-    font-size: 1.000em; /* 16x.875=16 */
+    font-weight: 400;
+    font-size: 1.125em; /* 16x.875=18 */
     padding-bottom: 5px;
 }
 
 .views-field-field-event-description {
-    font-size: 0.750em; /* 16x.875=12 */
+    font-size: 1.125em; /* 16x.875=18 */
 }
 
 .more-link{
@@ -226,12 +311,54 @@ a:hover, a:focus {
         width: 25%;
         height: auto;
     }
+   .views-field.views-field-title-1, .views-field-field-poll-description, .views-field-field-contest-description, .views-field-field-promotion-description {
+    background-color: #000000;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    margin-left: 0px;
+    margin-right: 0px;    
+    }
+    .flex-control-nav.flex-control-paging {
+    padding-right: 0px;  
+}        
 }
 @media(min-width:768px){
         .views-field.views-field-field-media-image {
         width: 50%;
         height: auto;
-    }  
+    }
+   .views-field.views-field-title-1, .views-field-field-poll-description, .views-field-field-contest-description, .views-field-field-promotion-description {
+    background-color: #000000;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    margin-left: 0px;
+    margin-right: 0px;    
+    }
+    .flex-control-nav.flex-control-paging {
+    padding-right: 0px;  
+}    
 }
-@media(min-width:992px){}
-@media(min-width:1200px){}
+@media(min-width:992px){
+   .views-field.views-field-title-1, .views-field-field-poll-description, .views-field-field-contest-description, .views-field-field-promotion-description {
+    background-color: #000000;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    margin-left: 66px;
+    margin-right: 66px;    
+    }
+    .flex-control-nav.flex-control-paging {
+    padding-right: 66px;  
+}    
+}
+@media(min-width:1200px){
+    .views-field.views-field-title-1, .views-field-field-poll-description, .views-field-field-contest-description, .views-field-field-promotion-description {
+    background-color: #000000;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    margin-left: 166px;
+    margin-right: 166px;    
+    }
+    .flex-control-nav.flex-control-paging {
+    padding-right: 166px;  
+}    
+}
