@@ -75,6 +75,10 @@ a:hover, a:focus {
 
 /* begin Drupal/Bootstrap regions */
 
+.region-header {
+    background-color: #404040;
+}
+
 .region-sidebar-second {
     padding-top: 20px;
 }
@@ -87,6 +91,11 @@ a:hover, a:focus {
 .view-front-page-slider.view-id-front_page_slider, #block-views-front-page-slider-block-2 {
     background-color: #404040;
     border: none;
+    width: auto; /* undo width: 100%  in flexslider.css*/
+    max-width:595px;  /* Make sure the image stays inside its surrounding container. */
+    height: auto; /* keep the aspect ratio */
+    margin-right: auto;
+    margin-left: auto;    
 }
 
 .flexslider {
@@ -121,47 +130,40 @@ a:hover, a:focus {
   display: block;
 }
 
-.flex-direction-nav a:before {
-    font-family: 'Oswald';
-    font-weight: 700;     
-    content: "\003c";
-    font-size: 80px;
-}
-
-.flex-direction-nav a.flex-next:before {
-    font-family: 'Oswald';
-    font-weight: 700; 
-    content: "\003e";
-    font-size: 80px;
-}
-
 .flex-direction-nav a  {
+    position: relative;
+    top: 80px;
     text-decoration:none;
     display: block;
-    text-shadow: 0px 0px 0 rgba(255,255,255,0.3);
-    transform : scale(1,2);
-    opacity: 1;
-    top: 200px;     
-    width: 80px;
-    height: 200px;  
+    opacity: 1;    
+    width: 70px;
+    height: auto;  
 }
 
 .flex-direction-nav .flex-prev {
-    left: 0px;
-    padding-left: 20px;
+    content: url(../icons/leftarrow.png);
+    opacity: 0.3;
+    filter: alpha(opacity=30); /* For IE8 and earlier */
+    position: absolute;
+    left: -100px;    
 }
 .flex-direction-nav .flex-next {
-    right: 0px;
-    padding-right: 20px;    
+    content: url(../icons/rightarrow.png);
+    opacity: 0.3;
+    filter: alpha(opacity=30); /* For IE8 and earlier */
+    position: absolute;
+    right: -100px;    
 }
 
 .flexslider:hover .flex-prev {
-    opacity: 0.7;
-    left: 0px;
+    opacity: 1;
+    filter: alpha(opacity=100); /* For IE8 and earlier */
+    left: -100px;   
 }
 .flexslider:hover .flex-next {
-    opacity: 0.7;
-    right: 0px;
+    opacity: 1;
+    filter: alpha(opacity=100); /* For IE8 and earlier */
+    right: -100px;
 }
 
 /* Control Nav */
@@ -179,14 +181,11 @@ a:hover, a:focus {
     -o-border-radius: 0px;
     border-radius: 0px;
 }
-
-.views-field.views-field-title-1, .views-field-field-poll-description, .views-field-field-contest-description, .views-field-field-promotion-description {
+   .views-field.views-field-title-1, .views-field-field-poll-description, .views-field-field-contest-description, .views-field-field-promotion-description {
     background-color: #000000;
     padding-left: 10px;
-    padding-bottom: 10px;    
-    margin-left: 166px;
-    margin-right: 166px;    
-}
+    padding-bottom: 10px;   
+    }
 
 /* end front page slider */
 
@@ -305,59 +304,48 @@ a:hover, a:focus {
 
 /* begin media queries */
 
-@media(max-width:767px){
+@media(max-width:767px){  
+    .flex-direction-nav a  {    
+        top: 50px;
+        width: 35px;
+        height: auto;  
+    }
+        .flex-direction-nav .flex-prev {
+    left: 0px;    
+    }
+        .flex-direction-nav .flex-next {
+    right: 0px;    
+    }
+        .flexslider:hover .flex-prev {
+    left: 0px;   
+    }
+        .flexslider:hover .flex-next {
+    right: 0px;
+    }        
     .views-field.views-field-field-media-image {
         width: 25%;
         height: auto;
     }
-   .views-field.views-field-title-1, .views-field-field-poll-description, .views-field-field-contest-description, .views-field-field-promotion-description {
-    background-color: #000000;
-    padding-left: 10px;
-    padding-bottom: 10px;
-    margin-left: 0px;
-    margin-right: 0px;    
-    }
     .flex-control-nav.flex-control-paging {
     padding-right: 0px;  
-}        
+    }        
 }
 @media(min-width:768px){
         .views-field.views-field-field-media-image {
         width: 50%;
         height: auto;
     }
-   .views-field.views-field-title-1, .views-field-field-poll-description, .views-field-field-contest-description, .views-field-field-promotion-description {
-    background-color: #000000;
-    padding-left: 10px;
-    padding-bottom: 10px;
-    margin-left: 0px;
-    margin-right: 0px;    
-    }
     .flex-control-nav.flex-control-paging {
     padding-right: 0px;  
-}    
+    }    
 }
 @media(min-width:992px){
-   .views-field.views-field-title-1, .views-field-field-poll-description, .views-field-field-contest-description, .views-field-field-promotion-description {
-    background-color: #000000;
-    padding-left: 10px;
-    padding-bottom: 10px;
-    margin-left: 66px;
-    margin-right: 66px;    
-    }
     .flex-control-nav.flex-control-paging {
     padding-right: 66px;  
-}    
+    }    
 }
 @media(min-width:1200px){
-    .views-field.views-field-title-1, .views-field-field-poll-description, .views-field-field-contest-description, .views-field-field-promotion-description {
-    background-color: #000000;
-    padding-left: 10px;
-    padding-bottom: 10px;
-    margin-left: 166px;
-    margin-right: 166px;    
-    }
     .flex-control-nav.flex-control-paging {
     padding-right: 166px;  
-}    
+    }    
 }
