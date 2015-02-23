@@ -20,8 +20,12 @@ h1 {
 
 h1.page-header{
     position: relative;
+    padding-top: 10px;
     top: 20px;
-    padding-left: 5%;
+    padding-left: 2%;
+    margin-bottom: 40px;
+    background-color: #000000;
+    border-bottom: none;
 }
 
 h2 {
@@ -84,6 +88,16 @@ a:hover, a:focus {
 }
 
 /* end Drupal/Bootstrap regions */
+
+/* begin Boostrap classes */
+
+.center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* end Boostrap classes */
 
 
 /* begin front page slider */
@@ -171,9 +185,6 @@ a:hover, a:focus {
     float: right;
 }
 
-.flex-control-nav.flex-control-paging {
-    padding-right: 166px;  
-}
 
 .flex-control-paging li a {
     -webkit-border-radius: 0px;
@@ -186,6 +197,33 @@ a:hover, a:focus {
     padding-left: 10px;
     padding-bottom: 10px;   
     }
+    
+/*    
+.container {overflow: hidden; width: 100%}
+.flexslider {margin: 0 auto}
+.flex-viewport {overflow: visible !important}
+
+
+.flexslider .slides > li { 
+}
+
+ul.slides > li.clone {
+}
+
+ul.slides > li.clone img {  
+    opacity: .2;
+}
+ul.slides > li.flex-active-slide img {
+    padding: 0px !important;
+    opacity: 1;
+   
+}
+ul.slides > li {
+}
+ul.slides > li img { 
+    opacity: .2;  
+}
+*/
 
 /* end front page slider */
 
@@ -233,9 +271,7 @@ a:hover, a:focus {
 /* begin media icon links */
 
 .views-field.views-field-field-media-image {
-    float: left;
-    padding-right: 15px;
-    padding-bottom: 15px;    
+    padding-bottom: 10px;    
 }
 
 .views-field.views-field-field-media-image img{
@@ -275,6 +311,60 @@ a:hover, a:focus {
 }
 
 
+#block-views-front-page-block-1 .block-title:before {
+    display: inline-block;
+    content: url(../icons/calendar.png);
+    vertical-align:middle; 
+    padding-right: 10px;
+    border: none;
+}
+
+/* begin all events page */
+.page-all-teen-events .col-sm-9 h1.page-header:before {
+    display: inline-block;
+    content: url(../icons/calendar.png);
+    vertical-align:middle; 
+    padding-right: 10px;
+    border: none;
+}
+/* end all events page */
+
+/* begin all pictures-picasa-feed page */
+
+.page-pictures-picasa-feed .col-sm-9 h1.page-header:before {
+    display: inline-block;
+    content: url(../icons/pictures.png);
+    vertical-align:middle; 
+    padding-right: 10px;
+    border: none;
+}
+
+.views-field-field-feed-image img {
+    border: solid 2px #000000;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+
+.views-field-field-feed-title .field-content.col-md-12{
+    font-size: medium;
+    text-align: left;
+    width: 150px;
+    height:70px;
+    background-color: #252525;   
+    
+}
+.views-field-field-feed-publish-date .field-content.col-md-12 {
+    font-size: medium;
+    text-align: left;
+    width: 150px;
+    background-color: #252525; 
+}
+
+
+/* end all pictures-picasa-feed page */
+
+
 /* begin footer */
 
 .container-fluid {
@@ -304,7 +394,11 @@ a:hover, a:focus {
 
 /* begin media queries */
 
-@media(max-width:767px){  
+@media(max-width:767px){
+    .views-field.views-field-field-media-image img{
+        width: 100%;
+        height: auto;
+    }    
     .flex-direction-nav a  {    
         top: 50px;
         width: 35px;
@@ -322,30 +416,13 @@ a:hover, a:focus {
         .flexslider:hover .flex-next {
     right: 0px;
     }        
-    .views-field.views-field-field-media-image {
-        width: 25%;
-        height: auto;
-    }
-    .flex-control-nav.flex-control-paging {
-    padding-right: 0px;  
-    }        
 }
 @media(min-width:768px){
-        .views-field.views-field-field-media-image {
-        width: 50%;
-        height: auto;
-    }
-    .flex-control-nav.flex-control-paging {
-    padding-right: 0px;  
-    }    
+.views-field.views-field-field-media-image {
+    width: 100%;
+    height: auto;
+}      
 }
 @media(min-width:992px){
-    .flex-control-nav.flex-control-paging {
-    padding-right: 66px;  
-    }    
-}
-@media(min-width:1200px){
-    .flex-control-nav.flex-control-paging {
-    padding-right: 166px;  
-    }    
+
 }

@@ -156,7 +156,7 @@
     </section>
 
     <?php if (!empty($page['sidebar_second'])): ?>
-      <aside class="col-sm-4" role="complementary">
+      <aside class="col-xs-12 col-sm-4 col-md-3 col-lg-3" role="complementary">
         <?php print render($page['sidebar_second']); ?>
       </aside>  <!-- /#sidebar-second -->
     <?php endif; ?>
