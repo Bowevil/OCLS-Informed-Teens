@@ -185,27 +185,54 @@ a:hover, a:focus {
     float: right;
 }
 
-
 .flex-control-paging li a {
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
     -o-border-radius: 0px;
     border-radius: 0px;
 }
-   .views-field.views-field-title-1, .views-field-field-poll-description, .views-field-field-contest-description, .views-field-field-promotion-description {
+
+.jquery-div {
+    width: 100%;
+    position: relative;
+    bottom: 40px;
+    pointer-events:none;
+    cursor: move;
+}
+
+.views-field-title-flexslider {
+    visibility: visible;    
+    width: 100%;
+    height: auto;    
+    font-size: 1.500em; /* 16x.875=24 */
     background-color: #000000;
+    opacity: 1;
+    padding-left: 10px;
+    padding-bottom: 10px;    
+}
+    
+.views-field-field-description-flexslider {
+    visibility: hidden;
+    width: 100%;
+    height: auto;    
+    font-size: 1.125em; /* 16x.875=24 */
+    background-color: #000000;
+    opacity: .7;    
     padding-left: 10px;
     padding-bottom: 10px;   
-    }
+}
     
+ .flexslider .slides > li {
+    height: 223px;
+}
+
+   
 /*    
 .container {overflow: hidden; width: 100%}
 .flexslider {margin: 0 auto}
 .flex-viewport {overflow: visible !important}
 
 
-.flexslider .slides > li { 
-}
 
 ul.slides > li.clone {
 }
