@@ -15,15 +15,17 @@ h1 {
     font-family: 'Oswald', sans-serif;
     font-weight: 300;   
     font-size:2.625em; /* 16x.875= 42 */
-    text-transform: uppercase;    
+    text-transform: none;    
 }
 
 h1.page-header{
+    font-size:2.250em; /* 16x.875= 36 */
     position: relative;
-    padding-top: 10px;
+    padding-top: 6px;
+    padding-bottom: 6px;    
     top: 20px;
     padding-left: 2%;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
     background-color: #000000;
     border-bottom: none;
 }
@@ -47,30 +49,39 @@ h3 {
 
 h4 {
     font-family: 'Oswald', sans-serif;
-    font-weight: 400;
+    font-weight: 300;
+    font-size: 1.500em; /* 16x.875=24 */  
     text-transform: uppercase;   
 }
 
 p {
     font-family: 'Oswald', sans-serif;
     font-weight: 300;
+    font-size: 1.333em; /* 16x.875=18 */ 
     margin-bottom: 20px;
 }
 
 li {
     font-family: 'Oswald', sans-serif;
-    font-weight: 300; 
+    font-weight: 300;
+    font-size: 1.333em; /* 16x.875=18 */     
 }
 
 a {
-    font-family: 'Oswald', sans-serif;
+    text-decoration: underline;
     color: #ffffff;
-    font-weight: 300;
 }
 
 a:hover, a:focus {
-    text-decoration: none;
     color: #bebebe;
+}
+
+.inline-link a {
+    font-size: 1.333em; /* 16x.875=18 */  
+}
+
+.content-link a {
+    font-size: 1.500em; /* 16x.875=24 */    
 }
 
 .glyphicon:empty {
@@ -78,6 +89,10 @@ a:hover, a:focus {
 }
 
 /* begin Drupal/Bootstrap regions */
+
+#navbar a {
+    text-decoration: none;
+}
 
 .region-header {
     background-color: #404040;
@@ -181,8 +196,23 @@ a:hover, a:focus {
 }
 
 /* Control Nav */
+
+.flex-control-nav {
+    text-align: right;
+}
+
+
 .flex-control-nav li {
+    margin: 0px;
+    margin-left: 5px;
+
+}
+.flex-control-nav li a {
+    color: transparent;
     float: right;
+    width: 18px;
+    height: 18px;
+
 }
 
 .flex-control-paging li a {
@@ -192,6 +222,7 @@ a:hover, a:focus {
     border-radius: 0px;
 }
 
+
 .jquery-div {
     width: 100%;
     position: relative;
@@ -200,11 +231,13 @@ a:hover, a:focus {
     cursor: move;
 }
 
+.views-field-title-flexslider a {
+    font-size: 1.500em; /* 16x.875=24 */
+}
+
 .views-field-title-flexslider {
     visibility: visible;    
-    width: 100%;
-    height: auto;    
-    font-size: 1.500em; /* 16x.875=24 */
+    font-size: 1.222em; /* 16x.875=22 */    
     background-color: #000000;
     opacity: 1;
     padding-left: 10px;
@@ -213,15 +246,17 @@ a:hover, a:focus {
     
 .views-field-field-description-flexslider {
     visibility: hidden;
-    width: 100%;
-    height: auto;    
-    font-size: 1.125em; /* 16x.875=24 */
     background-color: #000000;
     opacity: .7;    
     padding-left: 10px;
+    padding-right: 10px;    
     padding-bottom: 10px;   
 }
-    
+
+.views-field-field-description-flexslider p {
+    font-size: 0.889em; /* 16x.875=16 */ 
+}
+
  .flexslider .slides > li {
     height: 223px;
 }
@@ -266,7 +301,7 @@ ul.slides > li img {
 }
 
 .event-content {
-    background-color: #252525;
+    background-color: #333333;
     padding-top: 10px;
     padding-left: 15px;
     padding-bottom: 10px;
@@ -275,14 +310,13 @@ ul.slides > li img {
 }
 
 .views-field-field-event-title {
-    text-decoration: underline;
     font-size: 1.500em; /* 16x.875=24 */
     padding-bottom: 5px;
 }
 
 .views-field-field-event-library {
     font-weight: 400;
-    font-size: 1.125em; /* 16x.875=18 */
+    font-size: 1.333em; /* 16x.875=24 */
     padding-bottom: 5px;
 }
 
@@ -309,7 +343,6 @@ ul.slides > li img {
 
 
 .views-field-title {
-    text-decoration: underline;
     font-size: 1.250em; /* 16x.875=20 */
 }
 
@@ -317,7 +350,7 @@ ul.slides > li img {
 /* begin contest front page links */
 .contest-content .views-field-title {
     width: 100%;
-    background-color: #252525;
+    background-color: #333333;
     padding-top: 10px;
     padding-left: 15px;
     padding-bottom: 10px;
@@ -329,7 +362,7 @@ ul.slides > li img {
 /* begin polls front page links */
 .polls-content .views-field-title {
     width: 100%;
-    background-color: #252525;
+    background-color: #333333;
     padding-top: 10px;
     padding-left: 15px;
     padding-bottom: 10px;
@@ -347,7 +380,7 @@ ul.slides > li img {
 }
 
 /* begin all events page */
-.page-all-teen-events .col-sm-9 h1.page-header:before {
+.page-all-teen-events h1.page-header:before {
     display: inline-block;
     content: url(../icons/calendar.png);
     vertical-align:middle; 
@@ -358,7 +391,7 @@ ul.slides > li img {
 
 /* begin all pictures-picasa-feed page */
 
-.page-pictures-picasa-feed .col-sm-9 h1.page-header:before {
+.page-pictures-picasa-feed h1.page-header:before {
     display: inline-block;
     content: url(../icons/pictures.png);
     vertical-align:middle; 
@@ -378,18 +411,48 @@ ul.slides > li img {
     text-align: left;
     width: 150px;
     height:70px;
-    background-color: #252525;   
+    background-color: #333333;   
     
 }
 .views-field-field-feed-publish-date .field-content.col-md-12 {
     font-size: medium;
     text-align: left;
     width: 150px;
-    background-color: #252525; 
+    background-color: #333333; 
 }
 
 
 /* end all pictures-picasa-feed page */
+
+/* begin volunteer page */
+
+.volunteer-content {
+    maragin-top: -10px;
+    padding-top: 15px;
+    background-color: #333333;
+}
+
+.page-volunteer h1.page-header:before {
+    display: inline-block;
+    vertical-align: top;
+    content: url(../icons/volunteer.png);
+    padding-right: 10px;
+    border: none;
+}
+
+.views-field.views-field-field-vol-header-text {
+    font-weight: 400;
+    font-size: 1.500em; /* 16x.875=24 */
+    padding-bottom: 5px;
+}
+
+.views-field.views-field-field-vol-body {
+    padding-top: 10px;
+    clear: left;
+}
+
+
+/* end volunteer page */
 
 
 /* begin footer */
