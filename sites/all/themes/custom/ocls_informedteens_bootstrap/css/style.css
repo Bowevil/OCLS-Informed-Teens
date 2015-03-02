@@ -316,11 +316,11 @@ ul.slides > li img {
 
 .views-field-field-event-library {
     font-weight: 400;
-    font-size: 1.333em; /* 16x.875=24 */
+    font-size: 1.125em; /* 16x.875=18 */
     padding-bottom: 5px;
 }
 
-.views-field-field-event-description {
+.views-field-field-event-description p {
     font-size: 1.125em; /* 16x.875=18 */
 }
 
@@ -451,9 +451,65 @@ ul.slides > li img {
     clear: left;
 }
 
+.single-picasa-feed .views-field-field-feed-image img {
+    border: none;
+    margin-top: 0px;
+    margin-left: 10px;
+    margin-bottom: 5px;
+}
+
+#block-views-f3def9214ebb5cecb8ec0ef72aa7951e {
+    background-color: #333333;    
+}
+
+.views-table.cols-0.table {
+    margin-top: 10px;
+}
+
+.single-picasa-feed .views-field-title {
+    font-size: 1.500em; /* 16x.875=24 */
+}
+
+.single-picasa-feed .views-field-field-feed-publish-date .field-content {
+    font-size: 1.500em; /* 16x.875=24 */
+}
+.table>tbody>tr>td {
+    border-top: none;
+}
 
 /* end volunteer page */
 
+/* begin clubs page */
+
+.page-clubs .region-content {
+    background-color: #333333;
+}
+
+.page-clubs h1.page-header:before {
+    display: inline-block;
+    content: url(../icons/clubs.png);
+    vertical-align:middle; 
+    padding-right: 10px;
+    border: none;
+}
+
+.clubs-content {
+    padding-top: 15px;
+}
+
+.clubs-title > p {
+    font-size: 1.500em; /* 16x.875=24 */  
+}
+
+.clubs-description > p {
+    font-size: 1.333em; /* 16x.875=18 */   
+}
+
+.clubs-description {
+    padding-bottom: 10px;  
+}
+
+/* end clubs page */
 
 /* begin footer */
 
