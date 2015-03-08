@@ -84,6 +84,11 @@ a:hover, a:focus {
     font-size: 1.500em; /* 16x.875=24 */    
 }
 
+.table-striped>tbody>tr:nth-child(odd)>td {
+    background-color: #999999;
+}
+
+
 .glyphicon:empty {
     width: 1.2em;
 }
@@ -388,6 +393,54 @@ ul.slides > li img {
     border: none;
 }
 /* end all events page */
+
+/* beging calendar view */
+
+.calendar-calendar td .inner div.calendar div,
+.calendar-calendar td .inner div.calendar div a {
+  border: none;
+  background: #333333 !important;
+  padding: 0 2px;
+}
+
+.view .date-nav-wrapper .date-nav {
+    background-color: transparent;
+    border: 0px;
+    height: 40px;
+} 
+
+.pager li>a, .pager li>span {
+    background-color: transparent;
+    border: 1px solid transparent;
+}
+.pager li>a:hover, .pager li>span:hover {
+    background-color: #333333;
+}
+
+.calendar-calendar .month-view .full td.single-day div.monthview {
+    background: #333333 !important;
+}
+.view .date-nav-wrapper .date-prev a, .view .date-nav-wrapper .date-next a {
+    font-size: 1.333em; /* 16x.875=18 */ 
+}
+.calendar-calendar td .inner div.day a {
+    color: #333333 !important;
+}
+
+.view .date-nav-wrapper .date-prev, .view .date-nav-wrapper .date-next {
+    background: none repeat scroll 0 0 transparent;
+}
+
+.calendar-calendar ul, .calendar-calendar li {
+    background-color: #333333 !important;
+}
+
+/* end calendar view */
+
+
+
+
+
 
 /* begin all pictures-picasa-feed page */
 
