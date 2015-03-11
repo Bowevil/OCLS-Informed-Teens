@@ -385,6 +385,17 @@ ul.slides > li img {
 }
 
 /* begin all events page */
+
+
+#block-quicktabs-all-teens-events-page .block-title {
+    display: none;
+}
+
+
+.view-filters {
+    display: none;  
+}
+
 .page-all-teen-events h1.page-header:before {
     display: inline-block;
     content: url(../icons/calendar.png);
