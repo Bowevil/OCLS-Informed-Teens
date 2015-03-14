@@ -16,3 +16,14 @@ function ocls_informedteens_bootstrap_preprocess_page(&$variables) {
     $variables['content_column_class'] = ' class="col-sm-12"';
   }
 }
+
+/*
+ * Implementation of hook_form_alter()
+ */
+function ocls_informedteens_bootstrap_form_views_exposed_form_alter(&$form, $form_state, $form_id) {  
+  if ($form_id == 'views_exposed_form') {
+        $form['tid']['#options']['All'] = t('All Locations');
+        $form['keys']['#attributes']['title'] = t('Seach terms...');
+        $form['keys']['#attributes']['placeholder'] = t('Seach terms...');    
+  }
+}

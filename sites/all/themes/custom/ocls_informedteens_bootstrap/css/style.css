@@ -63,8 +63,7 @@ p {
 
 li {
     font-family: 'Oswald', sans-serif;
-    font-weight: 300;
-    font-size: 1.333em; /* 16x.875=18 */     
+    font-weight: 300;   
 }
 
 a {
@@ -76,7 +75,7 @@ a:hover, a:focus {
     color: #bebebe;
 }
 
-.inline-link a {
+span.inline-link a {
     font-size: 1.333em; /* 16x.875=18 */  
 }
 
@@ -112,12 +111,22 @@ a:hover, a:focus {
 /* begin Boostrap classes */
 
 .center-block {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* end Boostrap classes */
+
+/* begin Nav Bar */
+
+.menu.nav.navbar-nav {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+    font-size: 1.333em; /* 16x.875=18 */    
+}
+
+/* end Nav Bar */
 
 
 /* begin front page slider */
@@ -154,6 +163,7 @@ a:hover, a:focus {
     margin-left: auto;
     border: 4px solid #000000;    
 }
+
 
 .flexslider .flex-direction-nav a,
 .flexslider .flex-direction-nav a {
@@ -227,7 +237,6 @@ a:hover, a:focus {
     border-radius: 0px;
 }
 
-
 .jquery-div {
     width: 100%;
     position: relative;
@@ -242,20 +251,22 @@ a:hover, a:focus {
 
 .views-field-title-flexslider {
     visibility: visible;    
-    font-size: 1.222em; /* 16x.875=22 */    
+    font-size: 1.500em; /* 16x.875=24 */   
     background-color: #000000;
     opacity: 1;
     padding-left: 10px;
-    padding-bottom: 10px;    
+    padding-bottom: 5px;    
 }
     
 .views-field-field-description-flexslider {
-    visibility: hidden;
+    visibility: hidden;    
+    font-size: 1.333em; /* 16x.875=18 */      
     background-color: #000000;
     opacity: .7;    
     padding-left: 10px;
     padding-right: 10px;    
-    padding-bottom: 10px;   
+    padding-bottom: 10px;
+    
 }
 
 .views-field-field-description-flexslider p {
@@ -387,15 +398,6 @@ ul.slides > li img {
 /* begin all events page */
 
 
-#block-quicktabs-all-teens-events-page .block-title {
-    display: none;
-}
-
-
-.view-filters {
-    display: none;  
-}
-
 .page-all-teen-events h1.page-header:before {
     display: inline-block;
     content: url(../icons/calendar.png);
@@ -448,9 +450,100 @@ ul.slides > li img {
 
 /* end calendar view */
 
+/* begin exposed filters */
 
+.view-filters {
+    display: none;  
+}
 
+#block-quicktabs-all-teens-events-page .block-title {
+    display: none;
+}
 
+#block-views-exp-front-page-page {
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-top: 10px;
+    background-color: #333333;  
+}
+
+.form-type-textfield {
+    width: 300px;
+}
+
+.views-exposed-form .views-exposed-widget .form-submit {
+    margin-top: 2px;
+}
+
+* {
+    border-radius: 0px !important;
+    -webkit-border-radius: 0px !important;
+    -moz-border-radius: 0px !important;   
+}
+
+#quicktabs-tabpage-all_teens_events_page-1 .view-header {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+    font-size: 1.333em; /* 16x.875=18 */ 
+    margin-bottom: 10px;  
+}
+
+.btn-default, .btn-primary {
+    display: inline-block;
+    padding: 5px 14px;
+    background-color: #000000;
+    border: 0px solid #ddd;  
+}
+
+.btn-default:hover, .btn-primary:hover{
+    background-color: #000000;
+    color: #ffffff;
+}
+
+.pagination ul {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;    
+}
+    
+.pagination {
+    display: inline-block;
+    width: 100%;
+    height: auto !important;
+    margin: 0px;    
+    margin-bottom: 10px; 
+    background-color: #333333;
+}
+
+.pagination li{
+    float: left;
+}
+
+.pagination li>a, .pagination li>span {
+    display: inline-block;
+    background-color: #333333;
+    border: 0px solid #ddd;
+    border-radius: 0px;
+}
+
+.pagination li.active, .pagination li:active>span {
+    background-color: #b6985a;
+
+}
+.pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus {
+    color: #ffffff;
+    background-color: #000000;
+    border-color: #000000;
+}
+
+.pagination li>a:hover, .pagination li>span:hover{
+    color: #ffffff;
+    background-color: #000000;
+    border-color: #000000;
+}
+
+/* end exposed filters */
 
 
 /* begin all pictures-picasa-feed page */
@@ -484,7 +577,6 @@ ul.slides > li img {
     width: 150px;
     background-color: #333333; 
 }
-
 
 /* end all pictures-picasa-feed page */
 
@@ -574,6 +666,29 @@ ul.slides > li img {
 }
 
 /* end clubs page */
+
+/* begin contest page */
+
+.field-name-field-contest-date-range {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+
+/* end contest page */
+
+
+/* begin sharethis */
+
+.stMainServices {
+    height: 20px !important;
+}
+.stButton_gradient{
+    height: 20px !important; 
+}
+
+
+/* end sharethis */
 
 /* begin footer */
 
