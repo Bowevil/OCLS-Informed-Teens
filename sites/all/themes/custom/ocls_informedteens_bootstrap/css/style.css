@@ -71,6 +71,10 @@ a {
     color: #ffffff;
 }
 
+fieldset {
+   color: #000000; 
+}
+
 a:hover, a:focus {
     color: #bebebe;
 }
@@ -649,20 +653,33 @@ ul.slides > li img {
     border: none;
 }
 
-.clubs-content {
+.club-content {
     padding-top: 15px;
 }
 
-.clubs-title > p {
-    font-size: 1.500em; /* 16x.875=24 */  
+a.content-link {
+    font-size: 1.500em; /* 16x.875=24 */    
 }
 
-.clubs-description > p {
+
+.club-description > p {
     font-size: 1.333em; /* 16x.875=18 */   
 }
 
-.clubs-description {
-    padding-bottom: 10px;  
+.club-description {
+    padding-top: 20px;     
+    padding-bottom: 20px;  
+}
+
+.club-image {
+    clear: left;
+    padding-bottom: 20px;
+}
+
+.club-date-time-location {
+    float: right;
+    font-size: 1.333em; /* 16x.875=18 */
+    padding-bottom: 10px; 
 }
 
 /* end clubs page */
