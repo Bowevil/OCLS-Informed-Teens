@@ -1,9 +1,13 @@
 @import url(http://fonts.googleapis.com/css?family=Oswald:400,300,700);
 
+html,body{
+    height:100%;
+}
+
 body{
     background-color: #404040;
     font-family: 'Oswald', sans-serif;
-    font-weight: 300;    
+    font-weight: 400;    
     color: #ffffff;
 }
 
@@ -13,7 +17,7 @@ header {
 
 h1 {
     font-family: 'Oswald', sans-serif;
-    font-weight: 300;   
+    font-weight: 400;   
     font-size:2.625em; /* 16x.875= 42 */
     text-transform: none;    
 }
@@ -32,7 +36,7 @@ h1.page-header{
 
 h2 {
     font-family: 'Oswald', sans-serif;
-    font-weight: 300;
+    font-weight: 400;
     font-size: 2.625em; /* 16x.875= 42 */
     background-color: #000000;
     text-transform: none;
@@ -43,27 +47,27 @@ h2 {
 
 h3 {
     font-family: 'Oswald', sans-serif;
-    font-weight: 300;
+    font-weight: 400;
     font-size: 2.000em; /* 16x.875=32 */       
 }
 
 h4 {
     font-family: 'Oswald', sans-serif;
-    font-weight: 300;
+    font-weight: 400;
     font-size: 1.500em; /* 16x.875=24 */  
     text-transform: uppercase;   
 }
 
 p {
     font-family: 'Oswald', sans-serif;
-    font-weight: 300;
+    font-weight: 400;
     font-size: 1.333em; /* 16x.875=18 */ 
     margin-bottom: 20px;
 }
 
 li {
     font-family: 'Oswald', sans-serif;
-    font-weight: 300;   
+    font-weight: 300;
 }
 
 a {
@@ -80,11 +84,11 @@ a:hover, a:focus {
 }
 
 span.inline-link a {
-    font-size: 1.333em; /* 16x.875=18 */  
+    /*font-size: 1.333em;*/ /* 16x.875=18 */
 }
 
 .content-link a {
-    font-size: 1.500em; /* 16x.875=24 */    
+    /*font-size: 1.500em;*/ /* 16x.875=24 */
 }
 
 .table-striped>tbody>tr:nth-child(odd)>td {
@@ -94,6 +98,10 @@ span.inline-link a {
 
 .glyphicon:empty {
     width: 1.2em;
+}
+
+#toolbar li {
+    font-family: 'Verdana', sans-serif;
 }
 
 /* begin Drupal/Bootstrap regions */
@@ -132,6 +140,13 @@ span.inline-link a {
 
 /* end Nav Bar */
 
+/* begin social media icons */
+
+.social-media-icons {
+    padding: 0px;
+}
+
+/* end social media icons */
 
 /* begin front page slider */
 
@@ -193,25 +208,25 @@ span.inline-link a {
     opacity: 0.3;
     filter: alpha(opacity=30); /* For IE8 and earlier */
     position: absolute;
-    left: -100px;    
+    left: -170px;
 }
 .flex-direction-nav .flex-next {
     content: url(../icons/rightarrow.png);
     opacity: 0.3;
     filter: alpha(opacity=30); /* For IE8 and earlier */
     position: absolute;
-    right: -100px;    
+    right: -170px;
 }
 
 .flexslider:hover .flex-prev {
     opacity: 1;
     filter: alpha(opacity=100); /* For IE8 and earlier */
-    left: -100px;   
+    left: -170px;
 }
 .flexslider:hover .flex-next {
     opacity: 1;
     filter: alpha(opacity=100); /* For IE8 and earlier */
-    right: -100px;
+    right: -170px;
 }
 
 /* Control Nav */
@@ -356,14 +371,14 @@ ul.slides > li img {
 }
 
 .views-field.views-field-field-media-image img{
-    width: 100%;
+    width: 95%;
     height: auto;
 }
 /* end media icon links */
 
 
 .views-field-title {
-    font-size: 1.250em; /* 16x.875=20 */
+    font-size: 1.500em; /* 16x.875=24 */
 }
 
 
@@ -488,7 +503,7 @@ ul.slides > li img {
 
 #quicktabs-tabpage-all_teens_events_page-1 .view-header {
     font-family: 'Oswald', sans-serif;
-    font-weight: 300;
+    font-weight: 400;
     font-size: 1.333em; /* 16x.875=18 */ 
     margin-bottom: 10px;  
 }
@@ -560,27 +575,36 @@ ul.slides > li img {
     border: none;
 }
 
+.pictures-content {
+    font-size: 1.125em; /* 16x.875=18 */
+}
+
 .views-field-field-feed-image img {
-    border: solid 2px #000000;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border: solid 3px #000000;
     margin-top: 10px;
     margin-bottom: 5px;
 }
 
+.views-field-field-feed-title {
+    height: 50px;
+}
+.views-field-field-feed-publish-date {
+    padding-bottom: 5px;
+}
+.views-field-field-feed-title, .views-field-field-feed-publish-date{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 150px;
+    background-color: #333333;
+}
 
-.views-field-field-feed-title .field-content.col-md-12{
-    font-size: medium;
-    text-align: left;
-    width: 150px;
-    height:70px;
-    background-color: #333333;   
-    
-}
-.views-field-field-feed-publish-date .field-content.col-md-12 {
-    font-size: medium;
-    text-align: left;
-    width: 150px;
-    background-color: #333333; 
-}
+
 
 /* end all pictures-picasa-feed page */
 
@@ -611,13 +635,6 @@ ul.slides > li img {
     clear: left;
 }
 
-.single-picasa-feed .views-field-field-feed-image img {
-    border: none;
-    margin-top: 0px;
-    margin-left: 10px;
-    margin-bottom: 5px;
-}
-
 #block-views-f3def9214ebb5cecb8ec0ef72aa7951e {
     background-color: #333333;    
 }
@@ -635,6 +652,14 @@ ul.slides > li img {
 }
 .table>tbody>tr>td {
     border-top: none;
+}
+
+.views-field-field-vol-body h4 {
+    text-transform: lowercase;
+}
+
+.views-field-field-vol-body h4:first-letter{
+    text-transform: uppercase;
 }
 
 /* end volunteer page */
@@ -658,7 +683,7 @@ ul.slides > li img {
 }
 
 a.content-link {
-    font-size: 1.500em; /* 16x.875=24 */    
+   /* font-size: 1.500em; */ /* 16x.875=24 */
 }
 
 
@@ -710,6 +735,7 @@ a.content-link {
 /* begin footer */
 
 .container-fluid {
+    height: 100%;
     background-color: #000000;  
 }
 
@@ -738,7 +764,7 @@ a.content-link {
 
 @media(max-width:767px){
     .views-field.views-field-field-media-image img{
-        width: 100%;
+        width: 70%;
         height: auto;
     }    
     .flex-direction-nav a  {    
@@ -763,8 +789,32 @@ a.content-link {
 .views-field.views-field-field-media-image {
     width: 100%;
     height: auto;
-}      
+}
+
+    .flex-direction-nav .flex-prev {
+        left: -70px;
+    }
+    .flex-direction-nav .flex-next {
+        right: -70px;
+    }
+    .flexslider:hover .flex-prev {
+        left: -70px;
+    }
+    .flexslider:hover .flex-next {
+        right: -70px;
+    }
 }
 @media(min-width:992px){
-
+    .flex-direction-nav .flex-prev {
+        left: -170px;
+    }
+    .flex-direction-nav .flex-next {
+        right: -170px;
+    }
+    .flexslider:hover .flex-prev {
+        left: -170px;
+    }
+    .flexslider:hover .flex-next {
+        right: -170px;
+    }
 }
