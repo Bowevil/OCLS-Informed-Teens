@@ -203,15 +203,23 @@ span.inline-link a {
     height: auto;  
 }
 
-.flex-direction-nav .flex-prev {
+.flex-direction-nav a:before {
     content: url(../icons/leftarrow.png);
+}
+
+.flex-direction-nav a.flex-next:before {
+    content: url(../icons/rightarrow.png);
+}
+
+.flex-direction-nav .flex-prev {
     opacity: 0.3;
     filter: alpha(opacity=30); /* For IE8 and earlier */
     position: absolute;
     left: -170px;
 }
+
+
 .flex-direction-nav .flex-next {
-    content: url(../icons/rightarrow.png);
     opacity: 0.3;
     filter: alpha(opacity=30); /* For IE8 and earlier */
     position: absolute;
@@ -812,7 +820,6 @@ a.content-link {
     }    
     .flex-direction-nav a  {    
         top: 50px;
-        width: 35px;
         height: auto;  
     }
         .flex-direction-nav .flex-prev {
