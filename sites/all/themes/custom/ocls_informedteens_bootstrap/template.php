@@ -178,3 +178,10 @@ function ocls_informedteens_bootstrap_pager($variables) {
     }
     return $output;
 }
+
+function ocls_informedteens_bootstrap_preprocess_html(&$variables) {
+  drupal_add_js(drupal_get_path('theme', 'ocls_informedteens_bootstrap') . '/js/ocls_js.js', array(
+    'scope' => 'footer',
+    'weight' => '15'
+  ));
+}
