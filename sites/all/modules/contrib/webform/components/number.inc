@@ -272,7 +272,7 @@ function theme_webform_number($variables) {
 /**
  * Implements _webform_render_component().
  */
-function _webform_render_number($component, $value = NULL, $filter = TRUE, $submission = NULL) {
+function _webform_render_number($component, $value = NULL, $filter = TRUE) {
   $node = isset($component['nid']) ? node_load($component['nid']) : NULL;
 
   $element = array(
@@ -296,10 +296,6 @@ function _webform_render_number($component, $value = NULL, $filter = TRUE, $subm
     '#decimals' => $component['extra']['decimals'],
     '#translatable' => array('title', 'description', 'field_prefix', 'field_suffix'),
   );
-
-  if ($component['required']) {
-    $element['#attributes']['required'] = 'required';
-  }
 
   // Set the decimal count to zero for integers.
   if ($element['#integer'] && $element['#decimals'] === '') {
@@ -377,7 +373,7 @@ function _webform_render_number($component, $value = NULL, $filter = TRUE, $subm
 /**
  * Implements _webform_display_component().
  */
-function _webform_display_number($component, $value, $format = 'html', $submission = array()) {
+function _webform_display_number($component, $value, $format = 'html') {
   $empty = !isset($value[0]) || $value[0] === '';
   return array(
     '#title' => $component['name'],
@@ -407,20 +403,16 @@ function theme_webform_display_number($variables) {
 /**
  * Implements _webform_analysis_component().
  */
-function _webform_analysis_number($component, $sids = array(), $single = FALSE, $join = NULL) {
+function _webform_analysis_number($component, $sids = array(), $single = FALSE) {
   $advanced_stats = $single;
 
   $query = db_select('webform_submitted_data', 'wsd', array('fetch' => PDO::FETCH_ASSOC))
     ->fields('wsd', array('data'))
-    ->condition('wsd.nid', $component['nid'])
-    ->condition('wsd.cid', $component['cid']);
+    ->condition('nid', $component['nid'])
+    ->condition('cid', $component['cid']);
 
   if (count($sids)) {
-    $query->condition('wsd.sid', $sids, 'IN');
-  }
-
-  if ($join) {
-    $query->innerJoin($join, 'ws2_', 'wsd.sid = ws2_.sid');
+    $query->condition('sid', $sids, 'IN');
   }
 
   $population = array();
@@ -477,7 +469,7 @@ function _webform_analysis_number($component, $sids = array(), $single = FALSE, 
   if ($advanced_stats && $population_count && $sum != 0) {
     // Standard deviation.
     $stddev = 0;
-    foreach ($population as $value) {
+    foreach($population as $value) {
       // Obtain the total of squared variances.
       $stddev += pow(($value - $average), 2);
     }
@@ -522,21 +514,21 @@ function _webform_analysis_number($component, $sids = array(), $single = FALSE, 
     $stddev = _webform_number_format($component, $stddev);
     $low = _webform_number_format($component, $population[0]);
     $high = _webform_number_format($component, end($population));
-    foreach ($limit as $key => $value) {
+    foreach($limit as $key => $value) {
       $limit[$key] = _webform_number_format($component, $value);
     }
 
     // Column headings (override potential theme uppercase, e.g. Seven in D7).
     $header = array(
       t('Normal Distribution'),
-      array('data' => '-4' . $sigma, 'style' => 'text-transform: lowercase;'),
-      array('data' => '-3' . $sigma, 'style' => 'text-transform: lowercase;'),
-      array('data' => '-2' . $sigma, 'style' => 'text-transform: lowercase;'),
-      array('data' => '-1' . $sigma, 'style' => 'text-transform: lowercase;'),
-      array('data' => '+1' . $sigma, 'style' => 'text-transform: lowercase;'),
-      array('data' => '+2' . $sigma, 'style' => 'text-transform: lowercase;'),
-      array('data' => '+3' . $sigma, 'style' => 'text-transform: lowercase;'),
-      array('data' => '+4' . $sigma, 'style' => 'text-transform: lowercase;'),
+      array('data' => '-4' . $sigma, 'style' => 'text-transform: lowercase;',),
+      array('data' => '-3' . $sigma, 'style' => 'text-transform: lowercase;',),
+      array('data' => '-2' . $sigma, 'style' => 'text-transform: lowercase;',),
+      array('data' => '-1' . $sigma, 'style' => 'text-transform: lowercase;',),
+      array('data' => '+1' . $sigma, 'style' => 'text-transform: lowercase;',),
+      array('data' => '+2' . $sigma, 'style' => 'text-transform: lowercase;',),
+      array('data' => '+3' . $sigma, 'style' => 'text-transform: lowercase;',),
+      array('data' => '+4' . $sigma, 'style' => 'text-transform: lowercase;',),
     );
 
     // Insert row labels.
@@ -562,14 +554,6 @@ function _webform_analysis_number($component, $sids = array(), $single = FALSE, 
  */
 function _webform_table_number($component, $value) {
   return isset($value[0]) ? _webform_number_format($component, $value[0]) : '';
-}
-
-/**
- * Implements _webform_action_set_component().
- */
-function _webform_action_set_number($component, &$element, &$form_state, $value) {
-  $element['#value'] = $value;
-  form_set_value($element, $value, $form_state);
 }
 
 /**
@@ -881,10 +865,10 @@ function webform_modulo($a, $b) {
  * See @link http://www.cygnus-software.com/papers/comparingfloats/comparingfloats.htm @endlink
  * See @link http://floating-point-gui.de/errors/comparison/ @endlink
  * See @link http://en.wikipedia.org/wiki/IEEE_754-1985#Denormalized_numbers @endlink
- *
- * @param float $number_1
+
+ * @param $number_1 float
  *   The first number.
- * @param float $number_2
+ * @param $number_2 float
  *   The second number.
  *
  * @return int|null

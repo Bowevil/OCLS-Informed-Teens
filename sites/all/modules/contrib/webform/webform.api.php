@@ -121,7 +121,7 @@ function hook_webform_submission_load(&$submissions) {
  *
  * @see webform_submission_create()
  */
-function hook_webform_submission_create_alter(&$submission, &$node, &$account, &$form_state) {
+function hook_webform_submission_create($submission, $node, $account, $form_state) {
   $submission->new_property = TRUE;
 }
 
@@ -669,9 +669,9 @@ function hook_webform_results_access($node, $account) {
  *
  * @see webform_results_clear_access().
  *
- * @param object $node
+ * @param $node object
  *   The Webform node to check access on.
- * @param object $account
+ * @param $account object
  *   The user account to check access on.
  * @return boolean
  *   TRUE or FALSE if the user can access the webform results.
@@ -697,9 +697,9 @@ function hook_webform_results_clear_access($node, $account) {
  *
  * @see webform_node_update_access().
  *
- * @param object $node
+ * @param $node object
  *   The Webform node to check access on.
- * @param object $account
+ * @param $account object
  *   The user account to check access on.
  * @return boolean|NULL
  *   TRUE or FALSE if the user can access the webform results, or NULL if
@@ -890,14 +890,10 @@ function _webform_edit_component($component) {
  *   Whether or not to filter the contents of descriptions and values when
  *   rendering the component. Values need to be unfiltered to be editable by
  *   Form Builder.
- * @param $submission
- *   The submission from which this component is being rendered. Usually not
- *   needed. Used by _webform_render_date() to validate using the submission's
- *   completion date.
  *
  * @see _webform_client_form_add_component()
  */
-function _webform_render_component($component, $value = NULL, $filter = TRUE, $submission = NULL) {
+function _webform_render_component($component, $value = NULL, $filter = TRUE) {
   $form_item = array(
     '#type' => 'textfield',
     '#title' => $filter ? webform_filter_xss($component['name']) : $component['name'],
@@ -948,8 +944,6 @@ function hook_webform_component_render_alter(&$element, &$component) {
  *   Either 'html' or 'text'. Defines the format that the content should be
  *   returned as. Make sure that returned content is run through check_plain()
  *   or other filtering functions when returning HTML.
- * @param $submission
- *   The submission. Used to generate tokens.
  * @return
  *   A renderable element containing at the very least these properties:
  *    - #title
@@ -961,7 +955,7 @@ function hook_webform_component_render_alter(&$element, &$component) {
  *   which will properly format the label and content for use within an e-mail
  *   (such as wrapping the text) or as HTML (ensuring consistent output).
  */
-function _webform_display_component($component, $value, $format = 'html', $submission = array()) {
+function _webform_display_component($component, $value, $format = 'html') {
   return array(
     '#title' => $component['name'],
     '#weight' => $component['weight'],
@@ -991,27 +985,6 @@ function hook_webform_component_display_alter(&$element, &$component) {
     $element['#title'] = 'My custom title';
     $element['#default_value'] = 42;
   }
-}
-
-/**
- * Performs the conditional action set on an implemented component.
- *
- * Setting the form element allows form validation functions to see the value
- * that webform has set for the given component.
- *
- * @param array $component
- *   The webform component array whose value is being set for the currently-
- *   edited submission.
- * @param array $element
- *   The form element currently being set.
- * @param array $form_state
- *   The form's state.
- * @param string $value
- *   The value to be set, as defined in the conditional action.
- */
-function _webform_action_set_component($component, &$element, &$form_state, $value) {
-  $element['#value'] = $value;
-  form_set_value($element, $value, $form_state);
 }
 
 /**
@@ -1117,9 +1090,6 @@ function _webform_theme_component() {
  *   Boolean flag determining if the details about a single component are being
  *   shown. May be used to provided detailed information about a single
  *   component's analysis, such as showing "Other" options within a select list.
- * @param $join
- *   An optional SelectQuery object to be used to join with the submissions
- *   table to restrict the submissions being analyzed.
  * @return
  *   An array containing one or more of the following keys:
  *   - table_rows: If this component has numeric data that can be represented in
@@ -1140,7 +1110,7 @@ function _webform_theme_component() {
  *
  * @see _webform_defaults_component()
  */
-function _webform_analysis_component($component, $sids = array(), $single = FALSE, $join = NULL) {
+function _webform_analysis_component($component, $sids = array(), $single = FALSE) {
   // Generate the list of options and questions.
   $options = _webform_select_options_from_text($component['extra']['options'], TRUE);
   $questions = _webform_select_options_from_text($component['extra']['questions'], TRUE);
@@ -1157,10 +1127,6 @@ function _webform_analysis_component($component, $sids = array(), $single = FALS
 
   if (count($sids)) {
     $query->condition('sid', $sids, 'IN');
-  }
-
-  if ($join) {
-    $query->innerJoin($join, 'ws2_', 'wsd.sid = ws2_.sid');
   }
 
   $result = $query->execute();

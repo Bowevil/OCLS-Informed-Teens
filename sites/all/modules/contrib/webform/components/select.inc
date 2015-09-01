@@ -20,7 +20,6 @@ function _webform_defaults_select() {
       'items' => '',
       'multiple' => NULL,
       'aslist' => NULL,
-      'empty_option' => '',
       'optrand' => 0,
       'other_option' => NULL,
       'other_text' => t('Other...'),
@@ -177,22 +176,6 @@ function _webform_edit_select($component) {
     '#description' => t('Check this option if you want the select component to be displayed as a select list box instead of radio buttons or checkboxes. Option groups (nested options) are only supported with listbox components.'),
     '#parents' => array('extra', 'aslist'),
   );
-  $form['display']['empty_option'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Empty option'),
-    '#default_value' => $component['extra']['empty_option'],
-    '#size' => 60,
-    '#maxlength' => 255,
-    '#description' => t('The list item to show when no default is provided. Leave blank for "- None -" or "- Select -".'),
-    '#parents' => array('extra', 'empty_option'),
-    '#states' => array(
-      'visible' => array(
-        ':input[name="extra[aslist]"]' => array('checked' => TRUE),
-        ':input[name="extra[multiple]"]' => array('checked' => FALSE),
-        ':input[name="value"]' => array('filled' => FALSE),
-      ),
-    ),
-  );
   $form['display']['optrand'] = array(
     '#type' => 'checkbox',
     '#title' => t('Randomize options'),
@@ -314,7 +297,7 @@ function _webform_edit_validate_set_aslist($options, &$form_state) {
 /**
  * Implements _webform_render_component().
  */
-function _webform_render_select($component, $value = NULL, $filter = TRUE, $submission = NULL) {
+function _webform_render_select($component, $value = NULL, $filter = TRUE) {
   $node = isset($component['nid']) ? node_load($component['nid']) : NULL;
 
   $element = array(
@@ -340,19 +323,10 @@ function _webform_render_select($component, $value = NULL, $filter = TRUE, $subm
     _webform_shuffle_options($options);
   }
 
-  // Add HTML5 required attribute, if needed and possible (not working on more than one checkboxes).
-  if ($component['required'] && ($component['extra']['aslist'] || !$component['extra']['multiple'] || count($options) == 1)) {
-    $element['#attributes']['required'] = 'required';
-  }
-
   // Add default options if using a select list with no default. This trigger's
   // Drupal 7's adding of the option for us. See @form_process_select().
   if ($component['extra']['aslist'] && !$component['extra']['multiple'] && $default_value === '') {
     $element['#empty_value'] = '';
-    if (strlen($component['extra']['empty_option'])) {
-      $element['#empty_option'] =  $component['extra']['empty_option'];
-      $element['#translatable'][] = 'empty_option';
-    }
   }
 
   // Set the component options.
@@ -488,7 +462,7 @@ function webform_expand_select_ids($element) {
 /**
  * Implements _webform_display_component().
  */
-function _webform_display_select($component, $value, $format = 'html', $submission = array()) {
+function _webform_display_select($component, $value, $format = 'html') {
   // Sort values by numeric key. These may be in alphabetic order from the database query,
   // which is not numeric order for keys '10' and higher.
   $value = (array) $value;
@@ -631,21 +605,16 @@ function theme_webform_display_select($variables) {
 /**
  * Implements _webform_analysis_component().
  */
-function _webform_analysis_select($component, $sids = array(), $single = FALSE, $join = NULL) {
+function _webform_analysis_select($component, $sids = array(), $single = FALSE) {
   $options = _webform_select_options($component, TRUE);
 
   // Create a generic query for the component.
   $query = db_select('webform_submitted_data', 'wsd', array('fetch' => PDO::FETCH_ASSOC))
-    ->condition('wsd.nid', $component['nid'])
-    ->condition('wsd.cid', $component['cid'])
-    ->condition('wsd.data', '', '<>');
-
+    ->condition('nid', $component['nid'])
+    ->condition('cid', $component['cid'])
+    ->condition('data', '', '<>');
   if ($sids) {
-    $query->condition('wsd.sid', $sids, 'IN');
-  }
-
-  if ($join) {
-    $query->innerJoin($join, 'ws2_', 'wsd.sid = ws2_.sid');
+    $query->condition('sid', $sids, 'IN');
   }
 
   // Clone the query for later use, if needed.
@@ -662,11 +631,11 @@ function _webform_analysis_select($component, $sids = array(), $single = FALSE, 
 
   if ($options) {
     // Gather the normal results first (not "other" options).
-    $query->addExpression('COUNT(wsd.data)', 'datacount');
+    $query->addExpression('COUNT(data)', 'datacount');
     $result = $query
-      ->condition('wsd.data', array_keys($options), 'IN')
+      ->condition('data', array_keys($options), 'IN')
       ->fields('wsd', array('data'))
-      ->groupBy('wsd.data')
+      ->groupBy('data')
       ->execute();
     foreach ($result as $data) {
       $display_option = isset($options[$data['data']]) ? $options[$data['data']] : $data['data'];
@@ -694,12 +663,12 @@ function _webform_analysis_select($component, $sids = array(), $single = FALSE, 
 
     // If showing all results, execute the "other" query and append their rows.
     if ($single) {
-      $other_query->addExpression('COUNT(wsd.data)', 'datacount');
+      $other_query->addExpression('COUNT(data)', 'datacount');
       $other_query
         ->fields('wsd', array('data'))
-        ->groupBy('wsd.data');
+        ->groupBy('data');
       if ($options) {
-        $other_query->condition('wsd.data', array_keys($options), 'NOT IN');
+        $other_query->condition('data', array_keys($options), 'NOT IN');
       }
       $other_result = $other_query->execute();
       foreach ($other_result as $data) {
@@ -725,7 +694,6 @@ function _webform_table_select($component, $value) {
   $options = _webform_select_options($component, TRUE);
 
   $value = (array) $value;
-  ksort($value, SORT_NUMERIC);
   $items = array();
   // Set the value as a single string.
   foreach ($value as $option_value) {
@@ -740,24 +708,6 @@ function _webform_table_select($component, $value) {
   }
 
   return implode('<br />', $items);
-}
-
-/**
- * Implements _webform_action_set_component().
- */
-function _webform_action_set_select($component, &$element, &$form_state, $value) {
-  // Set the value as an array for multiple select or single value otherwise.
-  if ($element['#type'] == 'checkboxes') {
-    $checkbox_values = $element['#options'];
-    array_walk($checkbox_values, function(&$value, $key) use ($value) {
-      $value = (int)(strval($key) === $value);
-    });
-  }
-  else {
-    $value = $component['extra']['multiple'] ? array($value) : $value;
-  }
-  $element['#value'] = $value;
-  form_set_value($element, $value, $form_state);
 }
 
 /**
