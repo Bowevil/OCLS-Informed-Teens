@@ -76,13 +76,11 @@ function file_feeds_set_target($source, $entity, $target, $value) {
   $i = 0;
   $field = isset($entity->$target) ? $entity->$target : array();
   foreach ($value as $v) {
-    $file = FALSE;
     try {
-      $v->setAllowedExtensions($instance_info['settings']['file_extensions']);
       $file = $v->getFile($destination);
     }
     catch (Exception $e) {
-      watchdog('feeds', check_plain($e->getMessage()));
+      watchdog_exception('Feeds', $e, nl2br(check_plain($e)));
     }
     if ($file) {
       $field['und'][$i] = (array)$file;

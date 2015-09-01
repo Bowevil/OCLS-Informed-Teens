@@ -36,7 +36,7 @@ class FeedsXPathParserDOMXPath extends DOMXPath {
    *
    * @var arrray
    */
-  protected $namespaces = array();
+  protected $namepsaces = array();
 
   /**
    * The most recent error from parsing.
