@@ -660,7 +660,7 @@ ul.quicktabs-tabs li {
     font-size: 1.125em; /* 16x.875=18 */
 }
 
-.views-field-field-feed-image img {
+.views-field-field-picasa-embedded-media img {
     display: block;
     margin-left: auto;
     margin-right: auto;
